@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StaircaseProblem.MainPage">
+
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" CornerRadius="0" HasShadow="False" HorizontalOptions="Center">
+            <Grid  BackgroundColor="#2196F3" VerticalOptions="End" HorizontalOptions="Center" Margin="5,20,5,1">
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+                <Entry x:Name="entry" Placeholder="Enter number of steps here" Grid.Column="0" Keyboard="Numeric"
+                       TextChanged="OnEntryTextChanged"/>
+                <Button x:Name="goButton" Text=" GO " BackgroundColor="White" Clicked="OnGoButtonClicked"
+                        HorizontalOptions="StartAndExpand" Grid.Column="1"/>
+            </Grid> 
+        </Frame>
+
+        <Label x:Name="result" Text="Number of ways = ?" FontSize="Subtitle" Padding="30,10,30,10" HorizontalOptions="Center"/>
+
+        <ListView x:Name="listView" Footer="" Margin="10,5,10,5" SeparatorVisibility="None" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell >
+                        <Label Text="{Binding Text}" TextColor="{Binding Color}"/>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Label Text="Path:" FontSize="Body" Margin="10,5,5,0"/>
+
+        <Grid  BackgroundColor="Transparent" VerticalOptions="End" HorizontalOptions="Center" Margin="5,5,5,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+                <Entry x:Name="path" IsReadOnly="True" Grid.Column="0"/>
+                <Button x:Name="nextPathButton" Text=" Next Path " BackgroundColor="White" Clicked="OnNextPathClicked"
+                        HorizontalOptions="StartAndExpand" Grid.Column="1"/>
+        </Grid> 
+    </StackLayout>
+
+</ContentPage>
