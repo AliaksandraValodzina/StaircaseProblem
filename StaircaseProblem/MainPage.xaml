@@ -1,46 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:skia="clr-namespace:SkiaSharp;assembly=SkiaSharp"
+             xmlns:skiaforms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StaircaseProblem.MainPage">
 
     <StackLayout>
-        <Frame BackgroundColor="#2196F3" CornerRadius="0" HasShadow="False" HorizontalOptions="Center">
-            <Grid  BackgroundColor="#2196F3" VerticalOptions="End" HorizontalOptions="Center" Margin="5,20,5,1">
+        <Grid  BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="330"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+
+        <Frame BackgroundColor="#2196F3" CornerRadius="0" HasShadow="False" HorizontalOptions="CenterAndExpand"
+               Grid.Row="0">
+            <Grid  BackgroundColor="#2196F3" Margin="5,20,5,1">
                 <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="6*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
 
                 <Entry x:Name="entry" Placeholder="Enter number of steps here" Grid.Column="0" Keyboard="Numeric"
                        TextChanged="OnEntryTextChanged"/>
                 <Button x:Name="goButton" Text=" GO " BackgroundColor="White" Clicked="OnGoButtonClicked"
-                        HorizontalOptions="StartAndExpand" Grid.Column="1"/>
+                        Grid.Column="1"/>
             </Grid> 
         </Frame>
 
-        <Label x:Name="result" Text="Number of ways = ?" FontSize="Subtitle" Padding="30,10,30,10" HorizontalOptions="Center"/>
+        <Label x:Name="result" Text="Number of ways = ?" FontSize="Subtitle"
+               Padding="30,10,30,10" HorizontalOptions="CenterAndExpand" Grid.Row="1"/>
 
-        <ListView x:Name="listView" Footer="" Margin="10,5,10,5" SeparatorVisibility="None" >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell >
-                        <Label Text="{Binding Text}" TextColor="{Binding Color}"/>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <skiaforms:SKCanvasView x:Name="canvasView" Margin="5,5,5,5"
+                                PaintSurface="OnCanvasViewPaintSurface" Grid.Row="2" />
 
-        <Label Text="Path:" FontSize="Body" Margin="10,5,5,0"/>
+        <Label Text="Path:" FontSize="Body" Margin="5,0,0,0" Grid.Row="3"/>
 
-        <Grid  BackgroundColor="Transparent" VerticalOptions="End" HorizontalOptions="Center" Margin="5,5,5,20">
+        <Grid  BackgroundColor="Transparent" VerticalOptions="Start" HorizontalOptions="Center"
+               Margin="5,5,5,5" Grid.Row="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="110"/>
             </Grid.ColumnDefinitions>
 
                 <Entry x:Name="path" IsReadOnly="True" Grid.Column="0"/>
                 <Button x:Name="nextPathButton" Text=" Next Path " BackgroundColor="White" Clicked="OnNextPathClicked"
                         HorizontalOptions="StartAndExpand" Grid.Column="1"/>
+        </Grid>
         </Grid> 
     </StackLayout>
 

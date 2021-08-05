@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using SkiaSharp;
 
 namespace StaircaseProblem.Models
 {
@@ -34,8 +35,8 @@ namespace StaircaseProblem.Models
             }
         }
 
-        private Color color;
-        public Color Color
+        private SKColor color;
+        public SKColor Color
         {
             get
             {
@@ -47,6 +48,42 @@ namespace StaircaseProblem.Models
                 if (value != this.color)
                 {
                     this.color = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private SKPoint x;
+        public SKPoint X
+        {
+            get
+            {
+                return this.x;
+            }
+
+            set
+            {
+                if (value != this.x)
+                {
+                    this.x = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private SKPoint y;
+        public SKPoint Y
+        {
+            get
+            {
+                return this.y;
+            }
+
+            set
+            {
+                if (value != this.y)
+                {
+                    this.y = value;
                     NotifyPropertyChanged();
                 }
             }
