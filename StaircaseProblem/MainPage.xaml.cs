@@ -14,6 +14,7 @@ namespace StaircaseProblem
         private List<string> resultPath;
         private ObservableCollection<Stair> staircase;
         private int deviceWidth;
+        private int stepWidth;
         private int stepHeight;
 
         public MainPage()
@@ -25,17 +26,21 @@ namespace StaircaseProblem
             goButton.IsEnabled = false;
         }
 
-        private int Fib(int n)
+        /*private int Fib(int n)
         {
             if (n <= 1)
                 return n;
 
             return Fib(n - 1) + Fib(n - 2);
-        }
+        }*/
 
         private int CountWaysUtil(int n, int m)
         {
             int[] res = new int[n];
+
+            if (n == 1 || n == 0)
+                return 1;
+
             res[0] = 1;
             res[1] = 1;
 
@@ -147,11 +152,14 @@ namespace StaircaseProblem
 
         private void DrawStairsSkia(int n)
         {
+            if (n == 0)
+                return;
+
             var combination = path.Text.Split(',').ToList().Select(int.Parse).ToList();
             var test = new List<int>();
-            var strTest = string.Empty;
-            deviceWidth = (int)(Application.Current.MainPage.Width * 1.9);
-            var stepWidth = deviceWidth / n;
+            var strTest = string.Empty; 
+            deviceWidth = (int)(Application.Current.MainPage.Width * 1.7);
+            stepWidth = deviceWidth / n;
             stepHeight = stepWidth;
 
             for (int i = 1; i <= combination.Count; i++)
@@ -200,8 +208,26 @@ namespace StaircaseProblem
             {
                 var step = staircase.ElementAt(i);
                 paint.Color = step.Color;
-                canvas.DrawLine(step.X, step.Y, paint);
+
+                SKRect rect = new SKRect(step.X.X, step.X.Y, step.X.Y + 2 * stepWidth, step.X.Y + 2 * stepHeight);
+
+                if (paint.Color.Equals(SKColors.Black))
+                {
+                    rect = new SKRect(step.X.X - 2 * stepWidth, step.X.Y - stepHeight, step.X.X + 2 * stepWidth, step.X.Y + 3 * stepHeight);
+                }
+
+                if ((i != (staircase.Count - 1) && !staircase.ElementAt(i + 1).Color.Equals(SKColors.Black)) || i == (staircase.Count - 1))
+                {
+                    using (SKPath path = new SKPath())
+                    {
+                        paint.Color = SKColors.Orange;
+                        path.AddArc(rect, 0, -90);
+                        canvas.DrawPath(path, paint);
+                    }
+                }
+
                 paint.Color = SKColors.Black;
+                canvas.DrawLine(step.X, step.Y, paint);
 
                 if (i != 0)
                 {
