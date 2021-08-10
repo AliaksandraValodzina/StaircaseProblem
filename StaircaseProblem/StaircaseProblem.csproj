@@ -22,8 +22,13 @@
     <None Remove="SkiaSharp" />
     <None Remove="SkiaSharp.Views.Forms" />
     <None Remove="SkiaSharp.Views" />
+    <None Remove="Views\" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

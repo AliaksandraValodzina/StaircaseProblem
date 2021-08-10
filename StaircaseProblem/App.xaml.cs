@@ -1,4 +1,5 @@
 ﻿using System;
+using StaircaseProblem.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,8 +10,7 @@ namespace StaircaseProblem
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            MainPage = new StairPage();
         }
 
         protected override void OnStart()

@@ -1,92 +1,15 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using SkiaSharp;
+﻿using System.Collections.Generic;
 
 namespace StaircaseProblem.Models
 {
-    public class Stair : INotifyPropertyChanged
+    public class Stair
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public int NumberOfStairs { get; set; }
 
-        // This method is called by the Set accessor of each property.  
-        // The CallerMemberName attribute that is applied to the optional propertyName  
-        // parameter causes the property name of the caller to be substituted as an argument.  
-        private void NotifyPropertyChanged(string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public string WaysToReachTheTop { get; set; }
 
-        private string text;
-        public string Text
-        {
-            get
-            {
-                return this.text;
-            }
+        public List<Step> Step { get; set; }
 
-            set
-            {
-                if (value != this.text)
-                {
-                    this.text = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        private SKColor color;
-        public SKColor Color
-        {
-            get
-            {
-                return this.color;
-            }
-
-            set
-            {
-                if (value != this.color)
-                {
-                    this.color = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        private SKPoint x;
-        public SKPoint X
-        {
-            get
-            {
-                return this.x;
-            }
-
-            set
-            {
-                if (value != this.x)
-                {
-                    this.x = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        private SKPoint y;
-        public SKPoint Y
-        {
-            get
-            {
-                return this.y;
-            }
-
-            set
-            {
-                if (value != this.y)
-                {
-                    this.y = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
+        public List<string> WaysToClimb { get; set; }
     }
 }
