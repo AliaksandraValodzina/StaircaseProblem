@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SkiaSharp;
 using StaircaseProblem.Models;
 
 namespace StaircaseProblem.Services
@@ -9,13 +10,35 @@ namespace StaircaseProblem.Services
 
         public Stair GetStaircase(int numberOfStairs)
         {
-            var staircase = new Stair();
-            staircase.NumberOfStairs = numberOfStairs;
-            staircase.WaysToReachTheTop = CountWays(numberOfStairs);
-            WaysToClimb(numberOfStairs, new List<int>());
-            staircase.WaysToClimb = resultPath;
+            var stair = new Stair();
+            stair.NumberOfSteps = numberOfStairs;
 
-            return staircase;
+            if (numberOfStairs == -1)
+            {
+                stair.WaysToReachTheTop = "?";
+            }
+            else
+            {
+                stair.WaysToReachTheTop = CountWays(numberOfStairs);
+                WaysToClimb(numberOfStairs, new List<int>());
+                stair.WaysToClimb = resultPath;
+            }
+
+            return stair;
+        }
+
+        public Stair AddStepParams(Stair stair, int stepNo, bool isStepped)
+        {
+            var step = new Step
+            {
+                IsStepped = isStepped,
+                StartPoint = new SKPoint((stair.NumberOfSteps - stepNo) * stair.StepWidth, (stair.NumberOfSteps - stepNo) * stair.StepHeight),
+                EndPoint = new SKPoint((stair.NumberOfSteps - stepNo + 1) * stair.StepWidth, (stair.NumberOfSteps - stepNo) * stair.StepHeight)
+            };
+
+            stair.Step.Add(step);
+
+            return stair;
         }
 
         private void WaysToClimb(int n, List<int> path)

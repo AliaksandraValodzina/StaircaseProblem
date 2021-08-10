@@ -1,5 +1,4 @@
-﻿using System;
-using SkiaSharp;
+﻿using SkiaSharp;
 
 namespace StaircaseProblem.Models
 {
@@ -9,6 +8,6 @@ namespace StaircaseProblem.Models
 
         public SKPoint EndPoint { get; set; }
 
-        public SKColor Color { get; set; }
+        public bool IsStepped { get; set; }
     }
 }

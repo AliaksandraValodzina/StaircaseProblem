@@ -14,15 +14,11 @@ namespace StaircaseProblem.Views
     {
         private StairViewModel stairViewModel;
         private int deviceWidth;
-        private int stepWidth;
-        private int stepHeight;
 
         public StairPage()
         {
             stairViewModel = new StairViewModel();
-            stairViewModel.Stair = new StairService().GetStaircase(0);
-            stairViewModel.Stair.Step = new List<Step>();
-            stairViewModel.Stair.WaysToClimb = new List<string>();
+            stairViewModel.Stair = new StairService().GetStaircase(-1);
             InitializeComponent();
             nextPathButton.IsEnabled = false;
             goButton.IsEnabled = false;
@@ -77,49 +73,40 @@ namespace StaircaseProblem.Views
             path.Text = string.Empty;
         }
 
-        private void DrawStairs(int n)
+        private void DrawStairs(int numberOfStairs)
         {
             stairViewModel.Stair.Step = new List<Step>();
-            if (n == 0)
+
+            if (numberOfStairs == 0)
                 return;
 
             var combination = path.Text.Split(',').ToList().Select(int.Parse).ToList();
-            var test = new List<int>();
-            var strTest = string.Empty; 
+            var noStep = new List<int>();
             deviceWidth = (int)(Application.Current.MainPage.Width * 1.7);
-            stepWidth = deviceWidth / (n + 1);
-            stepHeight = stepWidth;
+            stairViewModel.Stair.StepWidth = deviceWidth / (numberOfStairs + 1);
+            stairViewModel.Stair.StepHeight = stairViewModel.Stair.StepWidth;
 
             for (int i = 1; i <= combination.Count; i++)
             {
-                test.Add(combination.Take(i).Sum());
+                noStep.Add(combination.Take(i).Sum());
             }
 
-            var stepNoList = test.OrderByDescending(x => x).ToList();
+            var stepNoList = noStep.OrderByDescending(x => x).ToList();
 
-            for (int i = n; i >= 1; i--)
+            for (int i = numberOfStairs; i >= 1; i--)
             {
-                var step = new Step
-                {
-                    Color = SKColors.Black,
-                    StartPoint = new SKPoint((n - i) * stepWidth, (n - i) * stepHeight),
-                    EndPoint = new SKPoint((n - i + 1) * stepWidth, (n - i) * stepHeight)
-                };
-
-                if (stepNoList.Contains(i))
-                {
-                    step.Color = SKColors.Orange;
-                }
-
-                stairViewModel.Stair.Step.Add(step);
+                var isStepped = stepNoList.Contains(i) ? false : true;
+                stairViewModel.Stair = new StairService().AddStepParams(stairViewModel.Stair, i, isStepped);
             }
         }
 
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
-            SKImageInfo info = args.Info;
             SKSurface surface = args.Surface;
             SKCanvas canvas = surface.Canvas;
+
+            var stepWidth = stairViewModel.Stair.StepWidth;
+            var stepHeight = stairViewModel.Stair.StepHeight;
 
             canvas.Clear();
 
@@ -135,16 +122,14 @@ namespace StaircaseProblem.Views
             for (int i = stairViewModel.Stair.Step.Count - 1; i >= 0; i--)
             {
                 var step = stairViewModel.Stair.Step.ElementAt(i);
-                paint.Color = step.Color;
-
                 SKRect rect = new SKRect(step.StartPoint.X, step.StartPoint.Y, step.StartPoint.Y + 2 * stepWidth, step.StartPoint.Y + 2 * stepHeight);
 
-                if (paint.Color.Equals(SKColors.Black))
+                if (step.IsStepped)
                 {
                     rect = new SKRect(step.StartPoint.X - 2 * stepWidth, step.StartPoint.Y - stepHeight, step.StartPoint.X + 2 * stepWidth, step.StartPoint.Y + 3 * stepHeight);
                 }
 
-                if ((i != (stairViewModel.Stair.Step.Count - 1) && !stairViewModel.Stair.Step.ElementAt(i + 1).Color.Equals(SKColors.Black)) || i == (stairViewModel.Stair.Step.Count - 1))
+                if ((i != (stairViewModel.Stair.Step.Count - 1) && !stairViewModel.Stair.Step.ElementAt(i + 1).IsStepped) || i == (stairViewModel.Stair.Step.Count - 1))
                 {
                     using (SKPath path = new SKPath())
                     {

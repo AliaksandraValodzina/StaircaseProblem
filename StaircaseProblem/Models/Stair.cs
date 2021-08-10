@@ -4,7 +4,11 @@ namespace StaircaseProblem.Models
 {
     public class Stair
     {
-        public int NumberOfStairs { get; set; }
+        public int NumberOfSteps { get; set; }
+
+        public int StepWidth { get; set; }
+
+        public int StepHeight { get; set; }
 
         public string WaysToReachTheTop { get; set; }
 
