@@ -64,10 +64,13 @@ namespace StaircaseProblem.Views
 
                 nextPathButton.IsEnabled = true;
                 goButton.IsEnabled = true;
-            } else
+            }
+            else
             {
+                stairViewModel.Stair = new StairService().GetStaircase(-1);
                 nextPathButton.IsEnabled = false;
                 goButton.IsEnabled = false;
+                canvasView.InvalidateSurface();
             }
 
             path.Text = string.Empty;
