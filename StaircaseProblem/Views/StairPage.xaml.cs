@@ -18,7 +18,7 @@ namespace StaircaseProblem.Views
         public StairPage()
         {
             stairViewModel = new StairViewModel();
-            stairViewModel.Stair = new StairService().GetStaircase(-1);
+            stairViewModel.Stair = new StairService().GetStair(-1);
             InitializeComponent();
             nextPathButton.IsEnabled = false;
             goButton.IsEnabled = false;
@@ -28,10 +28,11 @@ namespace StaircaseProblem.Views
         async void OnGoButtonClicked(object sender, EventArgs args)
         {
             var numberOfStairs = int.Parse(entry.Text);
-            stairViewModel.Stair = new StairService().GetStaircase(numberOfStairs);
+            stairViewModel.Stair = new StairService().GetStair(numberOfStairs);
 
             path.Text = stairViewModel.Stair.WaysToClimb.First();
             DrawStairs(numberOfStairs);
+            nextPathButton.IsEnabled = true;
 
             if (canvasView != null)
             {
@@ -62,12 +63,11 @@ namespace StaircaseProblem.Views
 
                 ((Entry)sender).Text = isValid ? args.NewTextValue : args.NewTextValue.Remove(args.NewTextValue.Length - 1);
 
-                nextPathButton.IsEnabled = true;
                 goButton.IsEnabled = true;
             }
             else
             {
-                stairViewModel.Stair = new StairService().GetStaircase(-1);
+                stairViewModel.Stair = new StairService().GetStair(-1);
                 nextPathButton.IsEnabled = false;
                 goButton.IsEnabled = false;
                 canvasView.InvalidateSurface();

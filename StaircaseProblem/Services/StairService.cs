@@ -8,19 +8,19 @@ namespace StaircaseProblem.Services
     {
         private List<string> resultPath;
 
-        public Stair GetStaircase(int numberOfStairs)
+        public Stair GetStair(int numberOfSteps)
         {
             var stair = new Stair();
-            stair.NumberOfSteps = numberOfStairs;
+            stair.NumberOfSteps = numberOfSteps;
 
-            if (numberOfStairs == -1)
+            if (numberOfSteps == -1)
             {
                 stair.WaysToReachTheTop = "?";
             }
             else
             {
-                stair.WaysToReachTheTop = CountWays(numberOfStairs);
-                WaysToClimb(numberOfStairs, new List<int>());
+                stair.WaysToReachTheTop = CountWays(numberOfSteps);
+                WaysToClimb(numberOfSteps, new List<int>());
                 stair.WaysToClimb = resultPath;
             }
 
